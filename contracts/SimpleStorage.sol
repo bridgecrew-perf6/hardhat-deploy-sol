@@ -12,6 +12,12 @@ contract SimpleStorage {
 
     People[] public people;
 
+    uint256 testVar;
+
+    constructor(uint256 _testVar) {
+        testVar = _testVar;
+    }
+
     mapping(string => uint256) public nameToFavoriteNumber;
 
     function store(uint256 _favoriteNumber) public {

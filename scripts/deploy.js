@@ -1,4 +1,3 @@
-const { TransactionDescription } = require("ethers/lib/utils");
 const { ethers, run, network } = require("hardhat");
 
 async function main() {
@@ -8,7 +7,7 @@ async function main() {
 
     console.log("Deploying contract...");
 
-    const SimpleStorage = await SimpleStorageFactory.deploy();
+    const SimpleStorage = await SimpleStorageFactory.deploy([2]);
     await SimpleStorage.deployed();
 
     console.log(`Deployed contract to: ${SimpleStorage.address}`);
@@ -16,7 +15,7 @@ async function main() {
     if (network.config.chainId === 4 && process.env.ETHERSCAN_API_KEY) {
         console.log("Waiting for block confirmations...");
         await SimpleStorage.deployTransaction.wait(6);
-        await verify(SimpleStorage.address, []);
+        await verify(SimpleStorage.address, [2]);
     }
 
     // Get the current value
@@ -37,7 +36,7 @@ async function verify(_contractAddress, _args) {
     try {
         await run("verify:verify", {
             address: _contractAddress,
-            constructorArgsParams: _args,
+            constructorArguments: _args,
         });
 
         console.log("-----------------------");
